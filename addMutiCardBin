@@ -1,0 +1,136 @@
+# JavaProject
+<html>
+  <head>
+  <tile>添加多个卡BIN号实例</title>
+  <style type="text/css">
+  html,body{
+    height:100%;
+    margin:0px;
+    font-size:12px;
+  }
+  .popDivClass{
+    background-color:#FAF4FF;
+    border:move;
+    text-align:center;
+    line-height:40px;
+    font-size:12px;
+    font-weight:bold;
+    z-index:99;
+    width:300px;
+    height:120px;
+    left:30%;
+    top:50%;
+    margin-left:-150px !important;/*FF IE7 该值为本身宽的一半*/
+    margin-top:-60px !important;
+    margin-top:11px;
+    position:fixed !important;
+    position:abolute;
+    _top:expression(eval(document.compatMode&&document.compatMode=='CSS1Compat')?documentElement.scrollTop+(
+    document.documentElement.clientHeight-this.offsetHeight)/2:/*IE6*/document.body.scrollTop+(document.body.clientHeight-this.clientHeight)/2);
+    /*IE5*/
+  }
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var textBinCard = $("textarea[name='binCard']");
+      
+      textBinCard.click(function(){
+        var binCard = $("input[name='binCard']").val();
+        $("textarea[name='cardNo']").val(binCard);
+        document.getElementById("popDiv").style.display = "block";
+      });
+      textBinCard.focusin(function(){
+        document.getElementById("popDiv").style.display="block";
+      });
+    });
+    
+    //确定
+    function fillCard(){
+      var value =   $("textarea[name='cardNo']").val();
+      var cardBinStr = delLastComma(value);
+      if(!verifyCardBin(cardBinStr)){
+        return false;
+      }
+      $("input[name='binCard']").val("");
+      $("input[name='binCard']").val(cardBinStr);
+      document.getElementById("popDiv").style.display="none";
+    }
+    
+    //去掉最后一个逗号
+    function delLastComma(val){
+      var value=val;
+      var dot = val.substr(val.length-1,val.length);
+      if(dot==","){
+        value = val.substr(0,val.length-1);
+      }
+      return value;
+    }
+    
+    //关闭窗口
+    function closeDiv(){
+      document.getElementById("popDiv").style.display="none";
+    }
+    
+    //格式校验
+    function verifyCardBin(value){
+      var reg = /^\d\d\d\d\d\d$/;
+      var result = value.split(",");
+      for(var i=0;i<result.length;i++){
+        var binNum = result[i];
+        if(binNum==""||(!reg.test(binNum))||binNum.length!=6){
+          alert("卡bin格式不正确，请重新输入!");
+          return false;
+        }
+        for(var j=i;j<resutl.length;j++){
+          var binNum_Compare = result[j];
+          if(binNum ==binNum_Compare){
+            alert(binNum_Compare+"值重复!");
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+    //动态加逗号
+    function autoAddDot(){
+      var value =  $("textarea[name='cardNo']").val();
+      var value = textBinCard.val();
+      var reg = /^\d\d\d\d\d\d$/;
+      var result = value.split(",");
+       for(var i=0;i<result.length;i++){
+        var binNum = result[i];
+        var lastNum = result[result.length-1];
+        if(binNum==""&&reg.test(binNum)){
+          if((i==result.length-1)&&(lastNum.length==6)){
+            value = value+",";
+          }
+        }
+        }
+        textBinCard.val("");
+        textBinCard.val(value);
+    }
+  </script>
+  </style>
+  </head>
+  <body>
+    <input type="text" name = "binCard" value=""/>
+    <table>
+      <tr>
+        <td>【卡BIN填入区】</td>
+      </tr>
+      <tr>
+        <td>
+          <textarea name="cardNo" class="dropth" cols="150" rows="15" onkeypress"autoAddDot()">
+          </textarea><br/>
+        </td>
+      </tr>
+      <tr>
+        <td height="37">
+          <div align="center">
+            <input type="button" value="确定" onclick="fillCard()" />
+            <input type="button" value="关闭" onclick="closeDiv()" />
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
