@@ -1,7 +1,7 @@
 # JavaProject
 <html>
   <head>
-  <tile>添加多个卡BIN号实例</title>
+  <tile>添加多个卡号实例</title>
   <style type="text/css">
   html,body{
     height:100%;
@@ -115,7 +115,7 @@
     <input type="text" name = "binCard" value=""/>
     <table>
       <tr>
-        <td>【卡BIN填入区】</td>
+        <td>【卡号填入区】</td>
       </tr>
       <tr>
         <td>
